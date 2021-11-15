@@ -1,0 +1,2 @@
+# skinnet
+.netcoreangular
