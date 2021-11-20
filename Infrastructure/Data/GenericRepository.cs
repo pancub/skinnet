@@ -39,9 +39,18 @@ namespace Infrastructure.Data
             //throw new System.NotImplementedException();
         }
 
+
+        public async Task<int> CountAsync(ISpecification<T> spec)
+        {
+            return await ApplySpecification(spec).CountAsync();
+
+            //throw new System.NotImplementedException();
+        }
+
         private IQueryable<T> ApplySpecification(ISpecification<T> spec)
         {
                 return SpecificationEvaluator<T>.GetQuery(_context.Set<T>().AsQueryable(),spec);
         }
+
     }
 }
