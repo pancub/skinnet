@@ -12,14 +12,14 @@ import { ShopParams } from '../shared/models/shopParams';
   styleUrls: ['./shop.component.scss']
 })
 export class ShopComponent implements OnInit {
-  
-  @ViewChild('search',{static : true}) searchTerm : ElementRef;
+
+  @ViewChild('search', { static: true }) searchTerm: ElementRef;
 
   products: Iproduct[];
   brands: IBrand[];
   types: IType[];
   shopParams = new ShopParams();
-  totalCount : number ;
+  totalCount: number;
 
   sortOptions = [
     { name: 'Alphabetical', value: 'name' },
@@ -81,30 +81,25 @@ export class ShopComponent implements OnInit {
     this.getProducts();
   }
 
-  onSortSelected(sort: string)
-  {
+  onSortSelected(sort: string) {
     this.shopParams.sort = sort;
     this.getProducts();
   }
 
-  onPageChanged(event : any)
-  {
-    if(this.shopParams.pageNumber !== event)
-    {
-    this.shopParams.pageNumber = event;
-    this.getProducts();
+  onPageChanged(event: any) {
+    if (this.shopParams.pageNumber !== event) {
+      this.shopParams.pageNumber = event;
+      this.getProducts();
     }
   }
 
-  onSearch()
-  {
+  onSearch() {
     this.shopParams.search = this.searchTerm.nativeElement.value;
     this.shopParams.pageNumber = 1;
     this.getProducts();
   }
 
-  onReset()
-  {
+  onReset() {
     this.searchTerm.nativeElement.value = '';
     this.shopParams = new ShopParams();
     this.getProducts();
