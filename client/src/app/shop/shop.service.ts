@@ -5,6 +5,7 @@ import { IBrand } from '../shared/models/brand';
 import { IType } from '../shared/models/productType';
 import { map } from 'rxjs/operators';
 import { ShopParams } from '../shared/models/shopParams';
+import { Iproduct } from '../shared/models/product';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,11 @@ export class ShopService {
       );
   }
 
+  getProduct(id : number)
+  {
+    return this.http.get<Iproduct>(this.baseUrl + 'products/' + id);
+  }
+  
   getBrands() {
     return this.http.get<IBrand[]>(this.baseUrl + "products/brands");
   }
