@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 export class TestErrorComponent implements OnInit {
 
   baseUrl = environment.apiUrl;
-
+  validationErrors: any;
   constructor(private http:HttpClient) { }
 
   ngOnInit(): void {
@@ -55,8 +55,17 @@ export class TestErrorComponent implements OnInit {
     )
   }
 
-  get400ValidationError()
-  {
+  get400ValidationError() {
+    this.http.get(this.baseUrl + 'products/fortytwo').subscribe(response => {
+      console.log(response);
+    }, error => {
+      console.log(error);
+      this.validationErrors = error.errors;
+    });
+  }
+
+}
+    /*
     this.http.get(this.baseUrl + 'products/fourtytwo').subscribe(
       response => 
       {
@@ -64,9 +73,11 @@ export class TestErrorComponent implements OnInit {
       },
       error => 
       {
-        console.log(error);
+        console.log(error.error.errors);
+        //this.validationErrors = error;
       }
     )
-  }
+    */
+//  }
 
-}
+//}
