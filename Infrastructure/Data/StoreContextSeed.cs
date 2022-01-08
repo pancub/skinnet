@@ -5,17 +5,18 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Core.Entities;
+using Core.Entities.OrderAggregate;
 using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Data
 {
     public class StoreContextSeed
     {
-        public static async Task SeedAsync(StoreContext storeContext,ILoggerFactory loggerFactory)
+        public static async Task SeedAsync(StoreContext storeContext, ILoggerFactory loggerFactory)
         {
             try
             {
-                if(!storeContext.ProductBrands.Any())
+                if (!storeContext.ProductBrands.Any())
                 {
                     var brandsData = File.ReadAllText("../Infrastructure/Data/SeedData/brands.json");
 
@@ -29,7 +30,7 @@ namespace Infrastructure.Data
                     await storeContext.SaveChangesAsync();
                 }
 
-                if(!storeContext.ProductTypes.Any())
+                if (!storeContext.ProductTypes.Any())
                 {
                     var brandsData = File.ReadAllText("../Infrastructure/Data/SeedData/types.json");
 
@@ -43,7 +44,7 @@ namespace Infrastructure.Data
                     await storeContext.SaveChangesAsync();
                 }
 
-                 if(!storeContext.Products.Any())
+                if (!storeContext.Products.Any())
                 {
                     var brandsData = File.ReadAllText("../Infrastructure/Data/SeedData/products.json");
 
@@ -57,11 +58,25 @@ namespace Infrastructure.Data
                     await storeContext.SaveChangesAsync();
                 }
 
+                if (!storeContext.DeliveryMethods.Any())
+                {
+                    var dmData = File.ReadAllText("../Infrastructure/Data/SeedData/delivery.json");
+
+                    var methods = JsonSerializer.Deserialize<List<DeliveryMethod>>(dmData);
+
+                    foreach (var item in methods)
+                    {
+                        storeContext.DeliveryMethods.Add(item);
+                    }
+
+                    await storeContext.SaveChangesAsync();
+                }
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var logger = loggerFactory.CreateLogger<StoreContextSeed>();
-                logger.LogError(ex,"Error while seeding data.");
+                logger.LogError(ex, "Error while seeding data.");
             }
         }
     }
